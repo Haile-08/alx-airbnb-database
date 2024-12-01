@@ -116,6 +116,6 @@
 
 Below is the Entity-Relationship (ER) diagram representing the database schema:
 
-![ER Diagram](path_to_er_diagram_image.png)
+![ER Diagram](ERD/Airbnb_ER_Diagram.png)
 
 ---
