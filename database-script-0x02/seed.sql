@@ -1,7 +1,7 @@
 --- INSERT SAMPLE USER
-INSERT INTO "User" (user_id, first_name, last_name, email, password_hash, phone_number, role)
+INSERT INTO "User" (user_id, first_name, last_name, email, password_hash, phone_number, role, created_at)
 VALUES
-  ('550e8400-e29b-41d4-a716-446655440000', 'John', 'Doe', 'john.doe@example.com', 'hashedpassword1', '123-456-7890', 'guest'),
+  ('550e8400-e29b-41d4-a716-446655440000', 'John', 'Doe', 'john.doe@example.com', 'hashedpassword1', '123-456-7890', 'guest', NOW()),
   ('550e8400-e29b-41d4-a716-446655440001', 'Jane', 'Smith', 'jane.smith@example.com', 'hashedpassword2', '987-654-3210', 'host'),
   ('550e8400-e29b-41d4-a716-446655440002', 'Alice', 'Johnson', 'alice.johnson@example.com', 'hashedpassword3', NULL, 'guest'),
   ('550e8400-e29b-41d4-a716-446655440003', 'Bob', 'Martin', 'bob.martin@example.com', 'hashedpassword4', '555-123-4567', 'admin');
