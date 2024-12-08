@@ -15,3 +15,19 @@ WHERE
         HAVING 
             AVG(rating) > 4.0
     );
+
+-- a correlated subquery to find users who have made more than 3 bookings
+
+SELECT 
+    user_id,
+    first_name,
+    last_name,
+    email,
+    phone_number,
+    role
+FROM 
+    User
+WHERE 
+    (SELECT COUNT(*) 
+     FROM Booking b 
+     WHERE b.user_id = u.user_id) > 3;
