@@ -29,5 +29,5 @@ FROM
     User
 WHERE 
     (SELECT COUNT(*) 
-     FROM Booking b 
-     WHERE b.user_id = u.user_id) > 3;
+     FROM Booking
+     WHERE user_id = user_id) > 3;

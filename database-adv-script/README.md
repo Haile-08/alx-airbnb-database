@@ -1,6 +1,6 @@
 # Master SQL Joins: A Step-by-Step Guide
 
-## 🎯 **Objective**
+## 🎯 **Objective 1**
 
 The goal of this task is to master SQL joins by writing and executing complex queries using different types of joins.
 
@@ -93,37 +93,94 @@ ON
 
 ---
 
-## 📝 **Output Examples**
+## 🎯 **Objective 2**
 
-### 1️⃣ **Inner Join Output:**
+The goal of this task is to master the use of correlated and non-correlated subqueries in SQL.
 
-| **user_id** | **total_price** | **status** | **first_name** | **email**        | **phone_number** |
-| ----------- | --------------- | ---------- | -------------- | ---------------- | ---------------- |
-| 1           | 500.00          | confirmed  | John           | john@example.com | 123-456-7890     |
+## 📖 **Instructions**
 
----
+- **Non-Correlated Subquery**: Write a query to find all properties where the average rating is greater than 4.0 using a subquery.
 
-### 2️⃣ **Left Join Output:**
-
-| **property_id** | **name**       | **location**    | **rating** | **comment**     |
-| --------------- | -------------- | --------------- | ---------- | --------------- |
-| 101             | Cozy Apartment | New York, NY    | 5          | "Amazing stay!" |
-| 102             | Luxury Villa   | Los Angeles, CA | NULL       | NULL            |
+- **Correlated Subquery**: Write a correlated subquery to find users who have made more than 3 bookings.
 
 ---
 
-### 3️⃣ **Full Outer Join Output:**
+### 1️⃣ Non-Correlated Subquery
 
-| **user_id** | **name** | **booking_id** | **total_price** | **status** |
-| ----------- | -------- | -------------- | --------------- | ---------- |
-| 1           | John     | 101            | 500.00          | confirmed  |
-| 2           | Alice    | NULL           | NULL            | NULL       |
-| NULL        | NULL     | 102            | 300.00          | pending    |
+Find all properties where the average rating is greater than 4.0.
+
+#### **Query**:
+
+```sql
+SELECT
+    name
+FROM
+    Property
+WHERE
+    property_id IN (
+        SELECT
+            property_id
+        FROM
+            Review
+        GROUP BY
+            property_id
+        HAVING
+            AVG(rating) > 4.0
+    );
+```
+
+#### 🔍 How it works:
+
+##### Inner Subquery:
+
+- Groups reviews by property_id.
+- Calculates the average rating for each property.
+- Filters to return only property_id values where the average rating is greater than 4.0.
+
+##### Outer Query:
+
+- Selects the name of properties from the Property table where property_id matches the IDs returned from the subquery
 
 ---
 
-## 🚀 **Next Steps**
+### 2️⃣ Correlated Subquery
 
-1. **Run the provided queries** in your MySQL environment.
-2. **Explore the results** and identify patterns in the joins.
-3. **Modify the queries** to include additional fields or filters for more complex scenarios.
+Find users who have made more than 3 bookings.
+
+#### **Query**:
+
+```sql
+SELECT
+    user_id,
+    first_name,
+    last_name,
+    email,
+    phone_number,
+    role
+FROM
+    User
+WHERE
+    (SELECT COUNT(*)
+     FROM Booking
+     WHERE Booking.user_id = User.user_id) > 3;
+```
+
+#### 🔍 How it works:
+
+##### Subquery:
+
+- For each row in the User table, the subquery counts the number of bookings made by the current user (Booking.user_id = User.user_id).
+
+- This subquery runs for each row in the User table, making it a correlated subquery.
+
+##### Outer Query:
+
+- Selects details (user_id, first_name, last_name, etc.) of users where the number of bookings is greater than 3.
+
+---
+
+### 📋 Key Concepts
+
+- **Non-Correlated Subquery**: A subquery that runs independently of the outer query. It is executed once and its result is used by the outer query.
+
+- **Correlated Subquery**: A subquery that runs for each row of the outer query. It refers to columns from the outer query in its WHERE clause.
