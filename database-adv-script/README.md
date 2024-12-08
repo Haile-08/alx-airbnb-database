@@ -1,6 +1,6 @@
 # Master SQL Joins: A Step-by-Step Guide
 
-## 🎯 **Objective 1**
+## 🎯 **Objective 1: Master SQL Joins**
 
 The goal of this task is to master SQL joins by writing and executing complex queries using different types of joins.
 
@@ -93,7 +93,7 @@ ON
 
 ---
 
-## 🎯 **Objective 2**
+## 🎯 **Objective 2: Master SQL Subqueries**
 
 The goal of this task is to master the use of correlated and non-correlated subqueries in SQL.
 
@@ -184,3 +184,69 @@ WHERE
 - **Non-Correlated Subquery**: A subquery that runs independently of the outer query. It is executed once and its result is used by the outer query.
 
 - **Correlated Subquery**: A subquery that runs for each row of the outer query. It refers to columns from the outer query in its WHERE clause.
+
+---
+
+## 🎯 **Objective 3: Aggregation and Window Functions**
+
+The goal of this task is to analyze data using SQL aggregation and window functions.
+
+## 📖 **Instructions**
+
+- **Count Bookings Per User:**: Write a query to find the total number of bookings made by each user using the COUNT() function and GROUP BY clause.
+
+- **Rank Properties by Total Bookings:**: Use window functions (ROW_NUMBER, RANK) to rank properties based on the total number of bookings they have received.
+
+---
+
+### 1️⃣ Count Bookings Per User
+
+Count the total number of bookings made by each user using the COUNT() function and GROUP BY clause.
+
+#### **Query**:
+
+```sql
+SELECT
+    User.user_id,
+    User.first_name,
+    User.last_name,
+    User.email,
+    User.phone_number,
+    User.role,
+    COUNT(Booking.booking_id) AS total_bookings
+FROM
+    User
+INNER JOIN
+    Booking
+ON
+    User.user_id = Booking.user_id
+GROUP BY
+    User.user_id;
+```
+
+---
+
+### 2️⃣ Rank Properties by Total Bookings
+
+Rank properties using ROW_NUMBER and RANK window functions based on total bookings.
+
+#### **Query**:
+
+```sql
+SELECT
+    Property.property_id,
+    Property.name AS property_name,
+    COUNT(Booking.booking_id) AS total_bookings,
+    ROW_NUMBER() OVER (ORDER BY COUNT(Booking.booking_id) DESC) AS row_number_rank,
+    RANK() OVER (ORDER BY COUNT(Booking.booking_id) DESC) AS `rank`
+FROM
+    Property
+LEFT JOIN
+    Booking
+ON
+    Property.property_id = Booking.property_id
+GROUP BY
+    Property.property_id, Property.name;
+```
+
+---
